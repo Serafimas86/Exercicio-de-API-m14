@@ -21,7 +21,7 @@ describe('Testes da Funcionalidade Usuários', () => {
         }).then((response) => {
             expect(response.status).to.equal(200)
             expect(response.body).to.have.property('usuarios')
-            expect(response.duration).to.be.lessThan(20)
+            expect(response.duration).to.be.lessThan(21)
         })
 
     });
@@ -82,8 +82,9 @@ describe('Testes da Funcionalidade Usuários', () => {
     });
 
     it('Deve deletar um usuário previamente cadastrado', () => {
-        let usuario = `Alycia da Silva ${Math.floor(Math.random() * 100000000)}`
-        cy.cadastrarUsuario(token, 'Alycia da Silva', 'alycia@gmail.com', 'teste')
+        let nome = `Alex Serafim ${Math.floor(Math.random() * 100000000)}`
+        let email = `Alex${Math.floor(Math.random() * 10000000)}@gmail.com`
+        cy.cadastrarUsuario(token, nome, email, 'teste', 'true')
             .then(response => {
                 let id = response.body._id
                 cy.request({
@@ -91,7 +92,7 @@ describe('Testes da Funcionalidade Usuários', () => {
                     url: `usuarios/${id}`,
                     headers: { authorization: token }
                 }).then(response => {
-                    expect(response.body.message).to.equal('Nenhum registro excluído')
+                    expect(response.body.message).to.equal('Registro excluído com sucesso')
                     expect(response.status).to.equal(200)
                 })
             })
